@@ -17,30 +17,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java.checks;
+package org.sonar.debugging.java.checks;
 
-import com.google.common.collect.ImmutableList;
+import org.junit.Test;
+import org.sonar.debugging.java.checks.UnknownConstructorCheck;
+import org.sonar.java.checks.verifier.JavaCheckVerifier;
 
-import org.sonar.check.Rule;
-import org.sonar.plugins.java.api.tree.MethodInvocationTree;
-import org.sonar.plugins.java.api.tree.Tree;
+public class UnknownConstructorCheckTest {
 
-import java.util.List;
-
-@Rule(key = "UnknownMethodInvocation")
-public class UnknownMethodCheck extends UnknownTypeAbstractCheck {
-
-  @Override
-  public List<Tree.Kind> nodesToVisit() {
-    return ImmutableList.of(Tree.Kind.METHOD_INVOCATION);
-  }
-
-  @Override
-  public void visitNode(Tree tree) {
-    MethodInvocationTree mit = (MethodInvocationTree) tree;
-    if (mit.symbol().isUnknown()) {
-      reportUnknownType(mit.methodSelect(), "Unknown method", getMissingArguments(mit.arguments()));
-    }
+  @Test
+  public void test() {
+    JavaCheckVerifier.verify("src/test/files/UnknownConstructorCheck.java", new UnknownConstructorCheck());
   }
 
 }

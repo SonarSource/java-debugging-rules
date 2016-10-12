@@ -17,14 +17,13 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java;
+package org.sonar.debugging.java;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.google.gson.Gson;
 
 import org.sonar.api.rule.RuleStatus;
-import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.plugins.java.Java;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
@@ -81,40 +80,14 @@ public class JavaDebuggingRulesDefinition implements RulesDefinition {
       rule.setName(metadata.title);
       rule.setTags(metadata.tags);
       rule.setStatus(RuleStatus.valueOf(metadata.status.toUpperCase(Locale.US)));
-
-      if (metadata.remediation != null) {
-        // metadata.remediation is null for template rules
-        rule.setDebtRemediationFunction(metadata.remediation.remediationFunction(rule.debtRemediationFunctions()));
-        rule.setGapDescription(metadata.remediation.linearDesc);
-      }
     }
   }
 
   private static class RuleMetadata {
     String title;
     String status;
-    @Nullable
-    Remediation remediation;
 
     String[] tags;
     String defaultSeverity;
-  }
-
-  private static class Remediation {
-    String func;
-    String constantCost;
-    String linearDesc;
-    String linearOffset;
-    String linearFactor;
-
-    private DebtRemediationFunction remediationFunction(DebtRemediationFunctions drf) {
-      if (func.startsWith("Constant")) {
-        return drf.constantPerIssue(constantCost.replace("mn", "min"));
-      }
-      if ("Linear".equals(func)) {
-        return drf.linear(linearFactor.replace("mn", "min"));
-      }
-      return drf.linearWithOffset(linearFactor.replace("mn", "min"), linearOffset.replace("mn", "min"));
-    }
   }
 }

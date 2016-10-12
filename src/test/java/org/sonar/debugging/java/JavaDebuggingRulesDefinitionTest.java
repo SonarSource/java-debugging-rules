@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java;
+package org.sonar.debugging.java;
 
 import org.junit.Test;
 import org.sonar.api.rules.RuleType;
@@ -30,7 +30,7 @@ import static org.fest.assertions.Assertions.assertThat;
 public class JavaDebuggingRulesDefinitionTest {
 
   @Test
-  public void test() {
+  public void correctly_load_rules() {
     JavaDebuggingRulesDefinition rulesDefinition = new JavaDebuggingRulesDefinition();
     RulesDefinition.Context context = new RulesDefinition.Context();
     rulesDefinition.define(context);
@@ -40,6 +40,17 @@ public class JavaDebuggingRulesDefinitionTest {
     assertThat(repository.rules()).hasSize(RulesList.getChecks().size());
 
     assertRuleProperties(repository);
+  }
+
+  @Test
+  public void innexisting_rule() {
+    JavaDebuggingRulesDefinition rulesDefinition = new JavaDebuggingRulesDefinition();
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    rulesDefinition.define(context);
+    RulesDefinition.Repository repository = context.repository(JavaDebuggingRulesDefinition.REPOSITORY_KEY);
+
+    Rule rule = repository.rule("fakeRule");
+    assertThat(rule).isNull();
   }
 
   private void assertRuleProperties(Repository repository) {

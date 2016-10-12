@@ -17,30 +17,15 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java.checks;
+package org.sonar.debugging.java;
 
-import com.google.common.collect.ImmutableList;
+import org.sonar.api.Plugin;
 
-import org.sonar.check.Rule;
-import org.sonar.plugins.java.api.tree.NewClassTree;
-import org.sonar.plugins.java.api.tree.Tree;
-
-import java.util.List;
-
-@Rule(key = "UnknownConstructorCall")
-public class UnknownConstructorCheck extends UnknownTypeAbstractCheck {
+public class JavaDebuggingRulesPlugin implements Plugin {
 
   @Override
-  public List<Tree.Kind> nodesToVisit() {
-    return ImmutableList.of(Tree.Kind.NEW_CLASS);
+  public void define(Context context) {
+    context.addExtension(JavaDebuggingRulesDefinition.class);
+    context.addExtension(JavaDebuggingRulesCheckRegistrar.class);
   }
-
-  @Override
-  public void visitNode(Tree tree) {
-    NewClassTree nct = (NewClassTree) tree;
-    if (nct.constructorSymbol().isUnknown()) {
-      reportUnknownType(nct.identifier(), "Unknown constructor", getMissingArguments(nct.arguments()));
-    }
-  }
-
 }

@@ -17,13 +17,13 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java;
+package org.sonar.debugging.java;
 
 import com.google.common.collect.ImmutableList;
 
+import org.sonar.debugging.java.checks.UnknownConstructorCheck;
+import org.sonar.debugging.java.checks.UnknownMethodCheck;
 import org.sonar.plugins.java.api.JavaCheck;
-import org.sonar.samples.java.checks.UnknownConstructorCheck;
-import org.sonar.samples.java.checks.UnknownMethodCheck;
 
 import java.util.List;
 

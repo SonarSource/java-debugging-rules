@@ -17,15 +17,8 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java;
+@ParametersAreNonnullByDefault
+package org.sonar.debugging.java.checks;
 
-import org.sonar.api.Plugin;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-public class JavaDebuggingRulesPlugin implements Plugin {
-
-  @Override
-  public void define(Context context) {
-    context.addExtension(JavaDebuggingRulesDefinition.class);
-    context.addExtension(JavaDebuggingRulesCheckRegistrar.class);
-  }
-}

@@ -17,16 +17,30 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java;
+package org.sonar.debugging.java.checks;
 
-import org.sonar.plugins.java.api.CheckRegistrar;
-import org.sonarsource.api.sonarlint.SonarLintSide;
+import com.google.common.collect.ImmutableList;
 
-@SonarLintSide
-public class JavaDebuggingRulesCheckRegistrar implements CheckRegistrar {
+import org.sonar.check.Rule;
+import org.sonar.plugins.java.api.tree.MethodInvocationTree;
+import org.sonar.plugins.java.api.tree.Tree;
+
+import java.util.List;
+
+@Rule(key = "UnknownMethodInvocation")
+public class UnknownMethodCheck extends UnknownTypeAbstractCheck {
 
   @Override
-  public void register(RegistrarContext registrarContext) {
-    registrarContext.registerClassesForRepository(JavaDebuggingRulesDefinition.REPOSITORY_KEY, RulesList.getJavaChecks(), RulesList.getJavaTestChecks());
+  public List<Tree.Kind> nodesToVisit() {
+    return ImmutableList.of(Tree.Kind.METHOD_INVOCATION);
   }
+
+  @Override
+  public void visitNode(Tree tree) {
+    MethodInvocationTree mit = (MethodInvocationTree) tree;
+    if (mit.symbol().isUnknown()) {
+      reportUnknownType(mit.methodSelect(), "Unknown method", getMissingArguments(mit.arguments()));
+    }
+  }
+
 }

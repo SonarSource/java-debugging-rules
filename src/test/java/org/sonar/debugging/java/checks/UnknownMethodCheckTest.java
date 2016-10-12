@@ -17,16 +17,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.samples.java.checks;
+package org.sonar.debugging.java.checks;
 
 import org.junit.Test;
+import org.sonar.debugging.java.checks.UnknownMethodCheck;
 import org.sonar.java.checks.verifier.JavaCheckVerifier;
 
-public class UnknownConstructorCheckTest {
+public class UnknownMethodCheckTest {
 
   @Test
   public void test() {
-    JavaCheckVerifier.verify("src/test/files/UnknownConstructorCheck.java", new UnknownConstructorCheck());
+    JavaCheckVerifier.verify("src/test/files/UnknownMethodCheck.java", new UnknownMethodCheck());
   }
 
 }
