@@ -39,8 +39,8 @@
 	</developers>
 
 	<properties>
-		<sonar.version>6.0</sonar.version>
-		<java.plugin.version>4.2</java.plugin.version>
+		<sonar.version>6.7</sonar.version>
+		<java.plugin.version>5.7.0.15470</java.plugin.version>
 		<sslr.version>1.21</sslr.version>
 		<gson.version>2.6.2</gson.version>
 		<gitRepositoryName>java-debugging-rules</gitRepositoryName>
@@ -190,9 +190,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-assert</artifactId>
-			<version>1.4</version>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.6.1</version>
 			<scope>test</scope>
 		</dependency>
 

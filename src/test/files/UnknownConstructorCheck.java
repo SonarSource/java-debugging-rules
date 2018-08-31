@@ -8,6 +8,6 @@ class A {
     new A( // Noncompliant [[sc=9;ec=10;secondary=9]] {{Unknown constructor}}
       unknownVar
       , 1);
-    new org.foo.A(); // noncompliant [[sc=17;ec=18]] {{Unknown constructor}}
+    new org.foo.A(); // Noncompliant [[sc=17;ec=18]] {{Unknown constructor}}
   }
 }
