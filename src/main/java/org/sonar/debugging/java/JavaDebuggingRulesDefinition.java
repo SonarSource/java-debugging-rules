@@ -1,6 +1,6 @@
 /*
  * Java Debugging Rules
- * Copyright (C) 2015-2018 SonarSource SA
+ * Copyright (C) 2015-2019 SonarSource SA
  * mailto:info AT sonarsource DOT com
  *
  * This program is free software; you can redistribute it and/or
@@ -19,20 +19,17 @@
  */
 package org.sonar.debugging.java;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.google.gson.Gson;
-
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
+import javax.annotation.Nullable;
 import org.sonar.api.rule.RuleStatus;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.plugins.java.Java;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
-
-import javax.annotation.Nullable;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
 
 public class JavaDebuggingRulesDefinition implements RulesDefinition {
 
@@ -66,7 +63,7 @@ public class JavaDebuggingRulesDefinition implements RulesDefinition {
       return null;
     }
     try {
-      return Resources.toString(resource, Charsets.UTF_8);
+      return Resources.toString(resource, StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new IllegalStateException("Failed to read: " + resource, e);
     }
