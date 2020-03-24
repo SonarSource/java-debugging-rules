@@ -8,7 +8,7 @@ class A {
     bar(); // Noncompliant [[sc=5;ec=8]] {{Unknown method}}
     Unknown.bar(); // Noncompliant [[sc=13;ec=16]]
     this.bar(); // Noncompliant [[sc=10;ec=13]]
-    gul( // Noncompliant [[sc=5;ec=8;secondary=12]]
+    gul( // Compliant - ECJ is able to resolve it!
       unknownVar
       , 1);
   }

@@ -5,9 +5,11 @@ class A {
 
   void foo() {
     new A("hello", 0); // Compliant
-    new A( // Noncompliant [[sc=9;ec=10;secondary=9]] {{Unknown constructor}}
+    new A( // Compliant - ECJ is able to resolve it!
       unknownVar
       , 1);
     new org.foo.A(); // Noncompliant [[sc=17;ec=18]] {{Unknown constructor}}
+
+    new unknownClass("hello"); // Noncompliant
   }
 }
