@@ -24,12 +24,12 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Locale;
 import javax.annotation.Nullable;
 import org.sonar.api.rule.RuleStatus;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.plugins.java.Java;
-import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionAnnotationLoader;
 
 public class JavaDebuggingRulesDefinition implements RulesDefinition {
 
@@ -41,10 +41,12 @@ public class JavaDebuggingRulesDefinition implements RulesDefinition {
   @Override
   public void define(Context context) {
     NewRepository repository = context
-      .createRepository(REPOSITORY_KEY, Java.KEY).setName(REPOSITORY_NAME);
+      .createRepository(REPOSITORY_KEY, "java")
+      .setName(REPOSITORY_NAME);
 
-    new AnnotationBasedRulesDefinition(repository, Java.KEY)
-      .addRuleClasses(/* don't fail if no SQALE annotations */ false, RulesList.getChecks());
+    List<Class<?>> checks = RulesList.getChecks();
+    new RulesDefinitionAnnotationLoader()
+      .load(repository, checks.toArray(new Class[]{}));
 
     for (NewRule rule : repository.rules()) {
       String metadataKey = rule.key();

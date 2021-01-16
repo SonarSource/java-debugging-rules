@@ -19,8 +19,9 @@
  */
 package org.sonar.debugging.java;
 
-import com.google.common.collect.ImmutableList;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import org.sonar.debugging.java.checks.UnknownConstructorCheck;
 import org.sonar.debugging.java.checks.UnknownMethodCheck;
 import org.sonar.plugins.java.api.JavaCheck;
@@ -32,19 +33,17 @@ public final class RulesList {
   private RulesList() {
   }
 
-  public static List<Class> getChecks() {
-    return ImmutableList.<Class>builder().addAll(getJavaChecks()).addAll(getJavaTestChecks()).build();
+  public static List<Class<?>> getChecks() {
+    ArrayList<Class<?>> classes = new ArrayList<>(getJavaChecks());
+    classes.addAll(getJavaTestChecks());
+    return classes;
   }
 
   public static List<Class<? extends JavaCheck>> getJavaChecks() {
-    return ImmutableList.<Class<? extends JavaCheck>>builder()
-      .add(UnknownMethodCheck.class)
-      .add(UnknownConstructorCheck.class)
-      .build();
+    return Arrays.asList(UnknownMethodCheck.class, UnknownConstructorCheck.class);
   }
 
   public static List<Class<? extends JavaCheck>> getJavaTestChecks() {
-    return ImmutableList.<Class<? extends JavaCheck>>builder()
-      .build();
+    return Collections.emptyList();
   }
 }
